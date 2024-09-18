@@ -169,6 +169,10 @@ abstract class Row implements IteratorAggregate, JsonSerializable
 
     protected function modify(string $col, $new) : void
     {
+        if ($new instanceof \BackedEnum) {
+            $new = $new->value;
+        }
+
         $this->assertValidValue($new);
         $this->cols[$col] = $new;
         if ($this->action !== self::INSERT && $this->isModified($col)) {
